@@ -1,228 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --green: #00ff41;
-            --green-dim: #00c832;
-            --green-glow: rgba(0, 255, 65, 0.6);
-            --panel-bg: #111;
-            --border: #222;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorry</title>
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
-        body {
-            background: url('https://raw.githubusercontent.com/lfillaz/lfillaz/main/lazdiscord.gif') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Cairo', 'Orbitron', Arial, sans-serif;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 16px;
-            gap: 30px;
-            position: relative;
-            overflow-x: hidden;
-        }
+<style>
+:root {
+    --green:#00ff41;
+}
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 6, 1, 0.52);
-            pointer-events: none;
-            z-index: 0;
-        }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.15) 2px, rgba(0,0,0,.15) 4px);
-            pointer-events: none;
-            z-index: 1;
-        }
+body{
+    background:url('https://raw.githubusercontent.com/lfillaz/lfillaz/main/lazdiscord.gif') no-repeat center center fixed;
+    background-size:cover;
+    font-family:'Cairo','Orbitron',Arial;
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+}
 
-        /* ── Image ── */
-        .image-card {
-            position: relative;
-            z-index: 2;
-            display: inline-block;
-            border-radius: 14px;
-            padding: 5px;
-            background: linear-gradient(135deg, var(--green), transparent 60%, var(--green-dim));
-            box-shadow: 0 0 28px var(--green-glow), 0 0 70px rgba(0,255,65,.2);
-            animation: pulse-border 3.5s ease-in-out infinite;
-        }
+/* الصورة */
+img{
+    width:min(450px,90%);
+    border-radius:12px;
+    margin-bottom:20px;
+}
 
-        @keyframes pulse-border {
-            0%,100% { box-shadow: 0 0 22px var(--green-glow), 0 0 55px rgba(0,255,65,.18); }
-            50%      { box-shadow: 0 0 40px var(--green-glow), 0 0 95px rgba(0,255,65,.38); }
-        }
+/* لوحة المعلومات */
+.panel{
+    background:rgba(0,0,0,0.6);
+    padding:20px;
+    border:1px solid #222;
+    border-radius:12px;
+    width:min(600px,95%);
+    box-shadow:0 0 20px rgba(0,255,65,0.2);
+}
 
-        .image-card::before,
-        .image-card::after {
-            content: '';
-            position: absolute;
-            width: 22px; height: 22px;
-            border-color: var(--green);
-            border-style: solid;
-        }
-        .image-card::before { top: -4px; left: -4px; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
-        .image-card::after  { bottom: -4px; right: -4px; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+/* النصوص */
+.row{
+    font-size:1.3rem;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin:8px 0;
+}
 
-        .image-card img {
-            display: block;
-            width: min(700px, 90vw);
-            height: auto;
-            border-radius: 10px;
-            filter: brightness(.96) saturate(1.1);
-        }
+.lbl{
+    color:var(--green);
+}
 
-        /* ── Terminal ── */
-        .terminal {
-            position: relative;
-            z-index: 2;
-            width: min(600px, 92vw);
-            background: #181818;
-            border: 1px solid #333;
-            border-radius: 10px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 40px rgba(0,0,0,.6), 0 0 25px rgba(0,255,65,.06);
-        }
+.val{
+    font-size:1.4rem;
+    color:#fff;
+}
 
-        .terminal-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: #111;
-            border-bottom: 1px solid #222;
-        }
+/* التوقيع */
+.signature{
+    margin-top:20px;
+    font-size:2.5rem;
+    letter-spacing:10px;
+    text-shadow:0 0 20px #fff,0 0 40px var(--green);
+}
 
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.r { background: #ff5f57; box-shadow: 0 0 5px #ff5f57aa; }
-        .dot.y { background: #ffbd2e; box-shadow: 0 0 5px #ffbd2eaa; }
-        .dot.g { background: var(--green); box-shadow: 0 0 5px var(--green-glow); }
+/* الأسماء تحت */
+.bottom-names{
+    position:fixed;
+    bottom:10px;
+    width:100%;
+    text-align:center;
+    font-size:1.1rem;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#fff;
+    text-shadow:0 0 10px #fff,0 0 20px var(--green);
+}
 
-        .t-title {
-            margin-left: 6px;
-            font-size: 0.68em;
-            letter-spacing: 3px;
-            color: rgba(0,255,65,.45);
-            text-transform: uppercase;
-        }
-
-        .terminal-body { padding: 20px 22px; }
-
-        .row {
-            display: flex;
-            gap: 12px;
-            padding: 4px 0;
-            font-size: clamp(.78em, 2vw, .93em);
-            line-height: 1.9;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0,255,65,.05);
-            opacity: 0;
-            animation: slidein .35s ease forwards;
-        }
-        .row:last-child { border-bottom: none; }
-        .row:nth-child(1){animation-delay:.1s}.row:nth-child(2){animation-delay:.2s}
-        .row:nth-child(3){animation-delay:.3s}.row:nth-child(4){animation-delay:.4s}
-        .row:nth-child(5){animation-delay:.5s}.row:nth-child(6){animation-delay:.6s}
-        .row:nth-child(7){animation-delay:.7s}
-
-        @keyframes slidein {
-            from { opacity:0; transform:translateX(-8px); }
-            to   { opacity:1; transform:translateX(0); }
-        }
-
-        .lbl { color: rgba(0,255,65,.45); min-width: 110px; flex-shrink: 0; }
-        .lbl { color: #00ff41bb; min-width: 110px; flex-shrink: 0; }
-        .val { color: #fff; text-shadow: 0 0 8px #00ff41aa; word-break: break-all; }
-        .val.cur::after { content:'█'; animation: blink 1s step-end infinite; margin-left:3px; }
-        @keyframes blink { 0%,100%{opacity:.8} 50%{opacity:0} }
-
-        /* ── Signature ── */
-        .signature {
-            position: relative;
-            z-index: 2;
-            font-family: 'Cairo', 'Orbitron', Arial, sans-serif;
-            font-weight: 900;
-            font-size: clamp(1.5em, 5vw, 2.5em);
-            letter-spacing: 10px;
-            color: #fff;
-            text-shadow: 0 0 18px #fff, 0 0 38px #fff, 0 0 60px #fff, 0 0 100px #fff;
-            animation: flicker 6s infinite;
-        }
-
-        .af7 {
-            position: relative;
-            z-index: 2;
-            margin-top: 10px;
-            font-family: 'Bebas Neue', 'Orbitron', 'Cairo', Arial, sans-serif;
-            font-weight: 900;
-            font-size: clamp(1.5em, 5vw, 2.7em);
-            letter-spacing: 10px;
-            color: var(--green);
-            text-shadow: 0 0 18px var(--green), 0 0 38px #00ff41, 0 0 60px #00ff41, 0 0 100px #00ff41;
-            text-align: center;
-            user-select: text;
-        }
-        @keyframes flicker {
-            0%,19%,21%,23%,25%,54%,56%,100%{opacity:1}
-            20%,22%,24%,55%{opacity:.55}
-        }
-    </style>
+/* رسالة */
+.click-msg{
+    margin-top:10px;
+    opacity:.7;
+    font-size:0.9rem;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="image-card">
-        <img src="https://raw.githubusercontent.com/lfillaz/lfillaz/main/lazdiscord.gif" alt="Image">
+<img src="https://raw.githubusercontent.com/lfillaz/lfillaz/main/lazdiscord.gif">
+
+<!-- الصوت -->
+<audio id="music" autoplay loop muted>
+  <source src="https://mp3tourl.com/audio/1776544456535-dd2b2a12-bea2-458d-97a6-7f753f4c7816.mp3" type="audio/mpeg">
+</audio>
+
+<!-- لوحة المعلومات (مرتبة) -->
+<div class="panel">
+
+    <div class="row">
+        <span class="lbl">IP:</span>
+        <span class="val" id="ip">loading...</span>
     </div>
 
-    <audio autoplay loop>
-        <source src="https://github.com/Mtokyo/trigger1/raw/refs/heads/main/Better%20Off%20Alone_%5Bcut_162sec%5D.mp3" type="audio/mpeg">
-    </audio>
+    <div class="row">
+        hacked by 60vk - 2u3y - Zx1 - ابو خلود - كريزما
+    </div>
 
-    <div class="terminal">
-        <div class="terminal-header">
-            <span class="dot r"></span>
-            <span class="dot y"></span>
-            <span class="dot g"></span>
-            <span class="t-title">network_trace.sh — root@MT4</span>
-        </div>
-        <div class="terminal-body">
-            <div class="row"><span class="lbl">IP</span>      <span class="val" id="ip">resolving...</span></div>
+    <div class="row">
+        راشد ينيك ام ابو جيزن
+    </div>
+
+    <div class="row">
+        تم تسريب جميع بيانات اللاعبين (مواقعهم - معلوماتهم - IP)
+    </div>
+
+</div>
+
+<div class="signature">discord.gg/mt4</div>
 
 
+<script>
+const audio = document.getElementById("music");
 
-    <div class="signature">discord.gg/mt4 </div>
-    <div class="60VK-ZX1-2U3Y-ابو خلود"></div>
+['click','touchstart','keydown','mousemove'].forEach(e=>{
+    document.addEventListener(e, () => {
+        audio.muted = false;
+        audio.play();
+    }, { once:true });
+});
 
-    <script>
-        const audio = document.querySelector('audio');
-        audio.play().catch(() => {});
-        ['click','touchstart','keydown','mousemove'].forEach(e =>
-            document.addEventListener(e, () => audio.play(), { once: true })
-        );
+fetch('https://ipinfo.io/json')
+.then(r=>r.json())
+.then(d=>{
+    document.getElementById('ip').textContent = d.ip;
+});
+</script>
 
-        fetch('https://ipinfo.io/json')
-            .then(r => r.json())
-            .then(d => {
-                const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v || '—'; };
-                set('ip', d.ip); set('city', d.city); set('region', d.region);
-                set('country', d.country); set('loc', d.loc); set('org', d.org); set('timezone', d.timezone);
-            })
-            .catch(() => document.getElementById('ip').textContent = 'unavailable');
-    </script>
 </body>
 </html>
