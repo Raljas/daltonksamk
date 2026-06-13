@@ -1,68 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ks</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('https://i.pinimg.com/originals/51/ae/a3/51aea3393b8234a1e69d8713a0a58bc3.gif') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Courier New', Courier, monospace;
-            color: #0000ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            text-align: center;
-        }
-        .image-container img {
-            width: 750px; 
-            height: auto;
-            border: 2px solid #0000ff; 
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 255, 0.7); 
-        }
-        .info {
-            margin-top: 20px;
-            font-size: 1.5em;
-            color: #0000ff; 
-            text-shadow: 0px 0px 8px #0000ff, 0px 0px 15px #0000ff, 0px 0px 25px #0000ff; 
-            letter-spacing: 4.5px; 
-            white-space: pre-wrap;
-        }
-        .text {
-            margin-top: 20px;
-            font-size: 3em; 
-            color: #0000ff; 
-            text-shadow: 0px 0px 8px #0000ff, 0px 0px 15px #0000ff, 0px 0px 25px #0000ff; 
-            letter-spacing: 4.5px; 
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Diagnostic</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      background: #0a0a0a; 
+      color: #e0e0e0; 
+      font-family: 'Courier New', monospace; 
+      overflow: hidden;
+    }
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    #main-content { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      min-height: 100vh; 
+      text-align: center;
+      z-index: 10;
+      position: relative;
+      padding: 20px;
+    }
+    #media-container {
+      width: 70%; max-width: 600px; border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05); 
+      border: 1px solid #333; 
+      overflow: hidden; margin-bottom: 20px;
+      background: #000;
+    }
+    #media-container img, #media-container video { width: 100%; display: block; filter: grayscale(100%); }
+    .hacked-text { 
+      font-size: 2.2rem; 
+      font-weight: bold; 
+      margin-bottom: 20px;
+      animation: blink 1.2s infinite;
+      color: #ffffff;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    #info-block { 
+      text-align: left; 
+      font-size: 1rem; 
+      line-height: 1.8rem; 
+      color: #bbbbbb; 
+      background: rgba(15, 15, 15, 0.95);
+      padding: 25px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      width: 90%;
+      max-width: 500px;
+    }
+    #info-block span { display: block; border-bottom: 1px solid #222; margin-bottom: 5px; padding-bottom: 5px; }
+    .small-note { font-size: 0.7rem; color: #555; margin-top: 15px; letter-spacing: 2px; }
+    @media (max-width: 600px) { .hacked-text { font-size: 1.3rem; } }
+  </style>
 </head>
 <body>
-    <div class="image-container">
-        <img src="https://media.discordapp.net/attachments/1498363210401845398/1504481152738787431/673c2a17c25e65a9303d24505b06b4bc.webp?ex=6a0724c2&is=6a05d342&hm=eee067d969231e250dc8eb2dafb5dbdf01fd1b4af16ff3e52a16c06f14ddfc4e&=&format=webp" alt="Discord Image">
-        <!DOCTYPE html>
-        <html lang="ar">
-        <head>
-          <meta charset="UTF-8">
-          <title>تشغيل أغنية تلقائيًا</title>
-        </head>
-        <body>
 
-            </div>
-    <div class="text">Discord.gg/mt4</div>
+  <canvas id="bg-canvas"></canvas>
 
+  <div id="main-content">
+    <div id="media-container">
+      <div id="media-placeholder"></div>
+    </div>
+    <div class="hacked-text">تم نشر جميع المعلوماتك سيو يا حب</div>
+    <div id="info-block">
+      <span id="ip">Requesting IP...</span>
+      <span id="location">Locating...</span>
+      <span id="isp">Checking Provider...</span>
+      <span id="os">System: Scanning...</span>
+      <span id="screen">Display: Detecting...</span>
+      <span id="browser">Client: Identifying...</span>
+    </div>
+  </div>
 
-    <audio autoplay loop>
-        <source src="https://audio.jukehost.co.uk/5vlKJX8Q0vxc3vTxevG0iPvv4sU2pEda" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+  <audio id="bg-audio" loop>
+    <source src="https://www.image2url.com/r2/default/audio/1781367764043-f05688a8-8f51-4422-af94-7fc4c43b6e2d.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    (function() {
+      const mediaUrl = "https://i.pinimg.com/1200x/3c/35/4b/3c354b1a90499fbc5a477a07a21088a1.jpg";
+      const audio = document.getElementById('bg-audio');
+      window.addEventListener('click', () => { audio.play().catch(()=>{}); }, { once: true });
+
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resize); resize();
+
+      const chars = "01"; 
+      const fontSize = 14;
+      let drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+      function draw() {
+        ctx.fillStyle = "rgba(10, 10, 10, 0.15)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#222"; 
+        ctx.font = fontSize + "px monospace";
+        drops.forEach((y, i) => {
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y * fontSize);
+          if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
         });
-    </script>
+      }
+      setInterval(draw, 50);
+
+      const placeholder = document.getElementById('media-placeholder');
+      placeholder.innerHTML = `<img src="${mediaUrl}">`;
+
+      function getBrowserInfo() {
+        const ua = navigator.userAgent;
+        if (ua.indexOf("Edg") > -1) return "Microsoft Edge";
+        if (ua.indexOf("Chrome") > -1) return "Google Chrome";
+        if (ua.indexOf("Firefox") > -1) return "Mozilla Firefox";
+        if (ua.indexOf("Safari") > -1) return "Apple Safari";
+        return "Unknown Browser";
+      }
+
+      async function initData() {
+        document.getElementById('os').textContent = "OS: " + (navigator.platform || "Desktop System");
+        document.getElementById('screen').textContent = "RES: " + window.screen.width + "x" + window.screen.height;
+        document.getElementById('browser').textContent = "Browser: " + getBrowserInfo();
+        
+        try {
+          const res = await fetch('https://ipapi.co/json/');
+          const d = await res.json();
+          document.getElementById('ip').textContent = "IP: " + (d.ip || "Unknown");
+          document.getElementById('location').textContent = `Loc: ${d.city}, ${d.country_name}`;
+          document.getElementById('isp').textContent = "ISP: " + (d.org || "Private Network");
+        } catch (e) {
+          document.getElementById('ip').textContent = "IP: CONNECTION ERROR";
+          document.getElementById('location').textContent = "Loc: FAILED TO FETCH";
+          document.getElementById('isp').textContent = "ISP: BLOCKED BY BROWSER";
+        }
+      }
+      initData();
+      document.addEventListener('contextmenu', e => e.preventDefault());
+    })();
+  </script>
 </body>
 </html>
