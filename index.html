@@ -1,151 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System Diagnostic</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      background: #0a0a0a; 
-      color: #e0e0e0; 
-      font-family: 'Courier New', monospace; 
-      overflow: hidden;
-    }
-    #bg-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      opacity: 0.3;
-    }
-    #main-content { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      min-height: 100vh; 
-      text-align: center;
-      z-index: 10;
-      position: relative;
-      padding: 20px;
-    }
-    #media-container {
-      width: 70%; max-width: 600px; border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05); 
-      border: 1px solid #333; 
-      overflow: hidden; margin-bottom: 20px;
-      background: #000;
-    }
-    #media-container img, #media-container video { width: 100%; display: block; filter: grayscale(100%); }
-    .hacked-text { 
-      font-size: 2.2rem; 
-      font-weight: bold; 
-      margin-bottom: 20px;
-      animation: blink 1.2s infinite;
-      color: #ffffff;
-    }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-    #info-block { 
-      text-align: left; 
-      font-size: 1rem; 
-      line-height: 1.8rem; 
-      color: #bbbbbb; 
-      background: rgba(15, 15, 15, 0.95);
-      padding: 25px;
-      border-radius: 8px;
-      border: 1px solid #444;
-      width: 90%;
-      max-width: 500px;
-    }
-    #info-block span { display: block; border-bottom: 1px solid #222; margin-bottom: 5px; padding-bottom: 5px; }
-    .small-note { font-size: 0.7rem; color: #555; margin-top: 15px; letter-spacing: 2px; }
-    @media (max-width: 600px) { .hacked-text { font-size: 1.3rem; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2hmn x KX Panel</title>
+
+<style>
+body{
+  margin:0;
+  background:black;
+  color:white;
+  font-family:Tahoma;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  text-align:center;
+}
+
+img{
+  width:420px;
+  height:260px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.info{
+  margin:8px 0;
+  font-size:18px;
+}
+
+.title{
+  font-size:50px;
+  color:red;
+  margin:10px 0;
+}
+
+/* Rainbow Discord */
+.discord {
+  font-size:32px;
+  font-weight:bold;
+  margin-top:25px;
+  animation: rainbow 3s infinite linear;
+}
+
+@keyframes rainbow {
+  0% { color:red; }
+  20% { color:orange; }
+  40% { color:yellow; }
+  60% { color:lime; }
+  80% { color:deepskyblue; }
+  100% { color:violet; }
+}
+</style>
 </head>
+
 <body>
 
-  <canvas id="bg-canvas"></canvas>
+<div class="container">
 
-<div id="main-content">
-  <div id="media-container">
-    <div id="media-placeholder"></div>
+  <div id="media-placeholder">
+    <img src="img.gif" alt="">
   </div>
-  <div class="hacked-text">
-تم تهكير سيرفر by primeawk - nawaf - - discord.gg/fl4
-  </div>
-  <div id="info-block">
-    <span id="ip">Requesting IP...</span>
-    <span id="location">Locating...</span>
-    <span id="isp">Checking Provider...</span>
-    <span id="os">System: Scanning...</span>
-    <span id="screen">Display: Detecting...</span>
-    <span id="browser">Client: Identifying...</span>
-  </div>
+
+  <div class="title">#اوعدكم واوفي في وعدي ؟ -</div>
+
+  <div class="info" id="os">OS: Loading...</div>
+  <div class="info" id="screen">RES: ...</div>
+  <div class="info" id="browser">Browser: Loading...</div>
+  <div class="info" id="gpu">GPU: Loading...</div>
+
+  <div class="discord">discord.gg/mt4</div>
+  
+
 </div>
-  <audio id="bg-audio" loop>
-    <source src="https://www.image2url.com/r2/default/audio/1781367764043-f05688a8-8f51-4422-af94-7fc4c43b6e2d.mp3" type="audio/mpeg">
-  </audio>
 
-  <script>
-    (function() {
-      const mediaUrl = "https://i.pinimg.com/1200x/3c/35/4b/3c354b1a90499fbc5a477a07a21088a1.jpg";
-      const audio = document.getElementById('bg-audio');
-      window.addEventListener('click', () => { audio.play().catch(()=>{}); }, { once: true });
+<script>
+(() => {
 
-      const canvas = document.getElementById('bg-canvas');
-      const ctx = canvas.getContext('2d');
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      window.addEventListener('resize', resize); resize();
+const mediaUrl = "https://media.giphy.com/media/lo5HLcAPFSgTZNTpAn/giphy.gif";
+document.getElementById('media-placeholder').innerHTML =
+`<img src="${mediaUrl}">`;
 
-      const chars = "01"; 
-      const fontSize = 14;
-      let drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-      function draw() {
-        ctx.fillStyle = "rgba(10, 10, 10, 0.15)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#222"; 
-        ctx.font = fontSize + "px monospace";
-        drops.forEach((y, i) => {
-          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y * fontSize);
-          if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-          drops[i]++;
-        });
-      }
-      setInterval(draw, 50);
+// Browser detect
+function getBrowserInfo() {
+  const ua = navigator.userAgent;
+  if (ua.includes("Edg")) return "Microsoft Edge";
+  if (ua.includes("Chrome")) return "Google Chrome";
+  if (ua.includes("Firefox")) return "Mozilla Firefox";
+  if (ua.includes("Safari")) return "Apple Safari";
+  return "Unknown Browser";
+}
 
-      const placeholder = document.getElementById('media-placeholder');
-      placeholder.innerHTML = `<img src="${mediaUrl}">`;
+// GPU detect
+function getGPU(){
+  try{
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 
-      function getBrowserInfo() {
-        const ua = navigator.userAgent;
-        if (ua.indexOf("Edg") > -1) return "Microsoft Edge";
-        if (ua.indexOf("Chrome") > -1) return "Google Chrome";
-        if (ua.indexOf("Firefox") > -1) return "Mozilla Firefox";
-        if (ua.indexOf("Safari") > -1) return "Apple Safari";
-        return "Unknown Browser";
-      }
+    if(!gl){
+      document.getElementById("gpu").textContent = "GPU: Not Available";
+      return;
+    }
 
-      async function initData() {
-        document.getElementById('os').textContent = "OS: " + (navigator.platform || "Desktop System");
-        document.getElementById('screen').textContent = "RES: " + window.screen.width + "x" + window.screen.height;
-        document.getElementById('browser').textContent = "Browser: " + getBrowserInfo();
-        
-        try {
-          const res = await fetch('https://ipapi.co/json/');
-          const d = await res.json();
-          document.getElementById('ip').textContent = "IP: " + (d.ip || "Unknown");
-          document.getElementById('location').textContent = `Loc: ${d.city}, ${d.country_name}`;
-          document.getElementById('isp').textContent = "ISP: " + (d.org || "Private Network");
-        } catch (e) {
-          document.getElementById('ip').textContent = "IP: CONNECTION ERROR";
-          document.getElementById('location').textContent = "Loc: FAILED TO FETCH";
-          document.getElementById('isp').textContent = "ISP: BLOCKED BY BROWSER";
-        }
-      }
-      initData();
-      document.addEventListener('contextmenu', e => e.preventDefault());
-    })();
-  </script>
+    const debug = gl.getExtension("WEBGL_debug_renderer_info");
+
+    if(debug){
+      const gpu = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL);
+      document.getElementById("gpu").textContent = "GPU: " + gpu;
+    } else {
+      document.getElementById("gpu").textContent = "GPU: Hidden";
+    }
+  }catch(e){
+    document.getElementById("gpu").textContent = "GPU: Error";
+  }
+}
+
+// Main info
+function initData(){
+
+  document.getElementById('os').textContent =
+    "OS: " + (navigator.platform || "Desktop System");
+
+  document.getElementById('screen').textContent =
+    "RES: " + screen.width + "x" + screen.height;
+
+  document.getElementById('browser').textContent =
+    "Browser: " + getBrowserInfo();
+
+  getGPU();
+}
+
+initData();
+
+// disable right click
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+})();
+</script>
+
 </body>
 </html>
+
+<audio id="bgSound" loop>
+  <source src="https://mp3tourl.com/audio/1781630406266-83252e8a-5a2c-47b5-b194-652732cd779f.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function tryPlay() {
+  const audio = document.getElementById("bgSound");
+  audio.volume = 0.5;
+
+  audio.play().catch(() => {
+    // إذا فشل التشغيل ينتظر أي تفاعل
+    const start = () => {
+      audio.play();
+      document.removeEventListener("click", start);
+      document.removeEventListener("touchstart", start);
+      document.removeEventListener("keydown", start);
+    };
+
+    document.addEventListener("click", start);
+    document.addEventListener("touchstart", start);
+    document.addEventListener("keydown", start);
+  });
+}
+
+window.addEventListener("load", tryPlay);
+</script>
