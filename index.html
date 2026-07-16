@@ -1,100 +1,77 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>System Breach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS</title>
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    font-family:Courier New, monospace;
-    color:#00ff00;
+    background:#050505;
+    height:100vh;
+    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
-    text-align:center;
-    overflow:hidden;
-
-    /* صورة الخلفية */
-    background:url("images/background.jpg") center center/cover no-repeat;
 }
 
+/* الخلفية */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.65);
-    z-index:1;
+    background:
+        radial-gradient(circle at center,rgba(255,255,255,.04),transparent 60%),
+        linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+    background-size:100% 100%,45px 45px,45px 45px;
+    animation:bgMove 10s linear infinite;
+}
+
+@keyframes bgMove{
+    from{transform:translateY(0);}
+    to{transform:translateY(45px);}
 }
 
 .container{
     position:relative;
-    z-index:2;
-    padding:20px;
+    z-index:1;
+    text-align:center;
 }
 
-.logo{
-    width:300px;
-    max-width:90%;
-    margin-bottom:25px;
-    border-radius:12px;
-    filter:drop-shadow(0 0 20px #00ff00);
+.ds{
+    color:#fff;
+    font-size:170px;
+    font-weight:900;
+    letter-spacing:12px;
+    text-shadow:
+        0 0 20px rgba(255,255,255,.35),
+        0 0 50px rgba(255,255,255,.15);
 }
 
-h1{
-    font-size:3em;
-    margin-bottom:15px;
-    text-shadow:0 0 10px #00ff00;
-    animation:flicker 1.5s infinite;
-}
-
-p{
-    margin-top:12px;
-    font-size:1.2em;
-    text-shadow:0 0 8px #00ff00;
-}
-
-@keyframes flicker{
-    0%,19%,21%,23%,25%,54%,56%,100%{
-        opacity:1;
-    }
-    20%,24%,55%{
-        opacity:.35;
-    }
+.discord{
+    margin-top:25px;
+    font-size:52px;
+    font-weight:700;
+    color:#7fa7ff;
+    letter-spacing:3px;
+    text-shadow:0 0 20px rgba(127,167,255,.4);
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
-    <!-- الشعار -->
-    <img
-        src="https://media.discordapp.net/attachments/1526937069044105316/1527135504745627658/image.png?ex=6a598f45&is=6a583dc5&hm=a969e66013ab264b796f434684a32e46ff3b73b9984b39dffb253537d8005248&format=webp&quality=lossless&width=436&height=350"
-        class="logo"
-        alt="Logo">
-
-    <h1>جاري اغتصاب wanted fight</h1>
-
-    <p>تم نيك ام wael</p>
-    <p>تم نيك ام سيرفر.</p>
-    <p>جارٍ التحويل إلى القاعدة السرية...</p>
-    <p>discord.gg/0zz...</p>
-    <p>w7eed mj smooth</p>
-
+    <div class="ds">وحيد هنا</div>
+    <div class="discord">discord.gg/0zz</div>
 </div>
-
-<audio autoplay loop hidden>
-    <source src="files.catbox.moe" type="audio/mpeg">
-    متصفحك لا يدعم تشغيل الصوت.
-</audio>
 
 </body>
 </html>
